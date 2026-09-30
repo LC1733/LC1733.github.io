@@ -61,7 +61,7 @@ hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
 .vbar .title small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
 .vbar select{padding:8px 30px 8px 10px;border-radius:9px;border:1px solid #476173;background:#0b1b29;color:var(--ink);max-width:280px}
 .vbar .spacer{flex:1}
-.viewer iframe{flex:1;border:0;width:100%;background:#fff}
+.viewer iframe{flex:1 1 0;min-height:0;height:100%;border:0;width:100%;background:#fff}
 .rel{display:flex;gap:8px;flex-wrap:wrap;padding:8px 14px;background:#0d1c2a;border-bottom:1px solid var(--stroke);font-size:12px;align-items:center}
 .rel .lab{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px}
 .rel button{border:1px solid var(--stroke);background:#122333;color:var(--ink);border-radius:99px;padding:5px 11px;font-size:12px;max-width:100%;text-align:left}
@@ -176,8 +176,9 @@ function openApp(id,sec){
  $('vrel').innerHTML=`<span class="lab">Relacionado</span>`+(rels.length?rels.filter(r=>{const k=r.other.app+'#'+r.other.sec;if(seen.has(k))return false;seen.add(k);return true;}).map((r,i)=>{const o=byId(r.other.app);const os=o?.sections.find(s=>s.id===r.other.sec);return `<button data-app="${esc(r.other.app)}" data-sec="${esc(r.other.sec||'')}" style="--tone:${o?tone(o):'#43d9d1'}" title="${esc(r.label)}"><b>${esc(o?.title||r.other.app)}</b>${os?' · '+esc(os.title):''} <span style="color:var(--muted)">· ${esc(REL.kinds[r.kind]||r.kind)}</span></button>`}).join(''):'<span style="color:var(--muted)">sin cruces editoriales aún</span>');
  if(a.deeplink&&a.deeplink.endsWith('pendiente')&&sec)$('vrel').insertAdjacentHTML('beforeend',`<span class="notice">Esta app aún no acepta salto directo a sección (retrofit pendiente); se abre al inicio.</span>`);
  $('vrel').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const o=byId(b.dataset.app);if(o?.status==='publicada')openApp(b.dataset.app,b.dataset.sec||undefined);}));
- $('frame').src=url;
+ // Mostrar el visor ANTES de cargar la URL: si el iframe carga oculto (display:none), la app se inicializa con viewport 0×0 y las reglas fijas/100vh quedan mal calculadas.
  $('viewer').classList.add('open');$('viewer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+ const f=$('frame');if(f.src!==new URL(url,location.href).href){f.src='about:blank';requestAnimationFrame(()=>{f.src=url;});}
  location.hash='app='+encodeURIComponent(id)+(sec?'&sec='+encodeURIComponent(sec):'');
 }
 function closeViewer(){$('viewer').classList.remove('open');$('viewer').setAttribute('aria-hidden','true');$('frame').src='about:blank';document.body.style.overflow='';if(location.hash)history.replaceState(null,'',location.pathname+location.search);}
