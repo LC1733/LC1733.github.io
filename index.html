@@ -61,7 +61,7 @@ hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
 .vbar .title small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
 .vbar select{padding:8px 30px 8px 10px;border-radius:9px;border:1px solid #476173;background:#0b1b29;color:var(--ink);max-width:280px}
 .vbar .spacer{flex:1}
-.viewer iframe{flex:1 1 0;min-height:0;height:100%;border:0;width:100%;background:#fff}
+.viewer iframe{flex:none;display:block;border:0;width:100%;background:#fff}
 .rel{display:flex;gap:8px;flex-wrap:wrap;padding:8px 14px;background:#0d1c2a;border-bottom:1px solid var(--stroke);font-size:12px;align-items:center}
 .rel .lab{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px}
 .rel button{border:1px solid var(--stroke);background:#122333;color:var(--ink);border-radius:99px;padding:5px 11px;font-size:12px;max-width:100%;text-align:left}
@@ -178,9 +178,11 @@ function openApp(id,sec){
  $('vrel').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const o=byId(b.dataset.app);if(o?.status==='publicada')openApp(b.dataset.app,b.dataset.sec||undefined);}));
  // Mostrar el visor ANTES de cargar la URL: si el iframe carga oculto (display:none), la app se inicializa con viewport 0×0 y las reglas fijas/100vh quedan mal calculadas.
  $('viewer').classList.add('open');$('viewer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
- const f=$('frame');if(f.src!==new URL(url,location.href).href){f.src='about:blank';requestAnimationFrame(()=>{f.src=url;});}
+ const f=$('frame');sizeFrame();if(f.src!==new URL(url,location.href).href){f.src='about:blank';requestAnimationFrame(()=>{f.src=url;});}
  location.hash='app='+encodeURIComponent(id)+(sec?'&sec='+encodeURIComponent(sec):'');
 }
+function sizeFrame(){const f=$('frame'),top=$('vrel').getBoundingClientRect().bottom;f.style.height=Math.max(200,window.innerHeight-top)+'px';}
+function kickFrame(){const f=$('frame');try{const w=f.contentWindow;if(w&&w.location.href!=='about:blank'){w.dispatchEvent(new w.Event('resize'));w.scrollTo(0,0);}}catch(_){}}
 function closeViewer(){$('viewer').classList.remove('open');$('viewer').setAttribute('aria-hidden','true');$('frame').src='about:blank';document.body.style.overflow='';if(location.hash)history.replaceState(null,'',location.pathname+location.search);}
 function fromHash(){const p=new URLSearchParams(location.hash.replace(/^#/,''));if(p.get('q')){$('q').value=p.get('q');search(p.get('q'));}if(p.get('app'))openApp(p.get('app'),p.get('sec')||undefined);}
 
@@ -191,6 +193,8 @@ function bind(){
  $('theme-chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;filterTheme=filterTheme===c.dataset.theme?null:c.dataset.theme;renderCards();search($('q').value);});
  $('cards').addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.disabled)openApp(c.dataset.app);});
  $('back').addEventListener('click',closeViewer);
+ $('frame').addEventListener('load',()=>{sizeFrame();kickFrame();setTimeout(kickFrame,250);});
+ window.addEventListener('resize',()=>{if($('viewer').classList.contains('open')){sizeFrame();kickFrame();}});
  $('vsec').addEventListener('change',e=>{const p=new URLSearchParams(location.hash.replace(/^#/,''));openApp(p.get('app'),e.target.value||undefined);});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('viewer').classList.contains('open'))closeViewer();});
  window.addEventListener('hashchange',()=>{if(!location.hash&&$('viewer').classList.contains('open'))closeViewer();});
