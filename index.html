@@ -130,7 +130,7 @@ async function init(){
  renderChips();renderCards();bind();fromHash();
 }
 function appBase(a){return (CAT.base||'/')+a.repo+'/';}
-function appURL(a,sec){if(a.status!=='publicada')return null;let u=appBase(a);if(!sec)return u;const s=a.sections.find(x=>x.id===sec);if(!s)return u;if(a.deeplink==='tab-query-pendiente'&&s.tab)return u+'?tab='+encodeURIComponent(s.tab);return u+'#'+encodeURIComponent(s.id);}
+function appURL(a,sec){if(a.status!=='publicada')return null;let u=appBase(a);if(!sec)return u;const s=a.sections.find(x=>x.id===sec);if(!s)return u;if(a.deeplink&&a.deeplink.startsWith('tab-query')&&s.tab)return u+'?tab='+encodeURIComponent(s.tab);return u+'#'+encodeURIComponent(s.id);}
 
 function renderChips(){
  $('type-chips').innerHTML=Object.entries(CAT.types).map(([k,v])=>`<button class="chip" data-type="${k}" style="--tone:${v.color}"><span class="dot"></span>${esc(v.label)}</button>`).join('');

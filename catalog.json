@@ -3,17 +3,29 @@
   "updated": "2026-09-29",
   "base": "/",
   "types": {
-    "catalogo":  { "label": "Catálogo / matriz",  "color": "#43d9d1" },
-    "atlas":     { "label": "Atlas clínico",      "color": "#bd9aff" },
-    "lectura":   { "label": "Lectura y práctica", "color": "#ffc56d" },
-    "simulador": { "label": "Simulador",          "color": "#8ee0ad" }
+    "catalogo": {
+      "label": "Catálogo / matriz",
+      "color": "#43d9d1"
+    },
+    "atlas": {
+      "label": "Atlas clínico",
+      "color": "#bd9aff"
+    },
+    "lectura": {
+      "label": "Lectura y práctica",
+      "color": "#ffc56d"
+    },
+    "simulador": {
+      "label": "Simulador",
+      "color": "#8ee0ad"
+    }
   },
   "themes": {
-    "decision":     "Decisión y sesgos",
-    "regulacion":   "Regulación y agencia",
-    "fisiologia":   "Neurofisiología",
-    "clinica":      "Neurodesarrollo y clínica",
-    "profundidad":  "Psicología profunda"
+    "decision": "Decisión y sesgos",
+    "regulacion": "Regulación y agencia",
+    "fisiologia": "Neurofisiología",
+    "clinica": "Neurodesarrollo y clínica",
+    "profundidad": "Psicología profunda"
   },
   "apps": [
     {
@@ -22,17 +34,83 @@
       "title": "Matriz de Sesgos en la Decisión",
       "subtitle": "Kahneman & Tversky · 18 sesgos en tres fases + autodiagnóstico",
       "type": "catalogo",
-      "themes": ["decision"],
+      "themes": [
+        "decision"
+      ],
       "status": "publicada",
       "pwa": true,
-      "deeplink": "hash-pendiente",
+      "deeplink": "hash",
       "sections": [
-        { "id": "flow-svg",     "title": "Mapa de flujo: de la fase al sesgo", "keywords": ["mapa", "flujo", "fase", "sesgo"] },
-        { "id": "quiz-section", "title": "Autodiagnóstico", "keywords": ["quiz", "test", "autodiagnóstico", "evaluación"] },
-        { "id": "phases",       "title": "Percepción del problema", "keywords": ["confirmación", "anclaje", "efecto marco", "disponibilidad", "representatividad", "halo"] },
-        { "id": "phases",       "title": "Evaluación de opciones", "keywords": ["aversión a la pérdida", "prospectivas", "exceso de confianza", "dotación", "status quo", "ilusión de control"] },
-        { "id": "phases",       "title": "Ejecución y revisión", "keywords": ["retrospectiva", "autoservicio", "coste hundido", "actuación", "arrepentimiento", "optimismo", "negatividad"] },
-        { "id": "extra-grid",   "title": "Otros sesgos relevantes", "keywords": ["descuento hiperbólico", "dunning-kruger", "bandwagon", "arrastre", "ilusión de frecuencia", "parálisis", "exceso de opciones"] }
+        {
+          "id": "flow-svg",
+          "title": "Mapa de flujo: de la fase al sesgo",
+          "keywords": [
+            "mapa",
+            "flujo",
+            "fase",
+            "sesgo"
+          ]
+        },
+        {
+          "id": "quiz-section",
+          "title": "Autodiagnóstico",
+          "keywords": [
+            "quiz",
+            "test",
+            "autodiagnóstico",
+            "evaluación"
+          ]
+        },
+        {
+          "id": "phases",
+          "title": "Percepción del problema",
+          "keywords": [
+            "confirmación",
+            "anclaje",
+            "efecto marco",
+            "disponibilidad",
+            "representatividad",
+            "halo"
+          ]
+        },
+        {
+          "id": "phases",
+          "title": "Evaluación de opciones",
+          "keywords": [
+            "aversión a la pérdida",
+            "prospectivas",
+            "exceso de confianza",
+            "dotación",
+            "status quo",
+            "ilusión de control"
+          ]
+        },
+        {
+          "id": "phases",
+          "title": "Ejecución y revisión",
+          "keywords": [
+            "retrospectiva",
+            "autoservicio",
+            "coste hundido",
+            "actuación",
+            "arrepentimiento",
+            "optimismo",
+            "negatividad"
+          ]
+        },
+        {
+          "id": "extra-grid",
+          "title": "Otros sesgos relevantes",
+          "keywords": [
+            "descuento hiperbólico",
+            "dunning-kruger",
+            "bandwagon",
+            "arrastre",
+            "ilusión de frecuencia",
+            "parálisis",
+            "exceso de opciones"
+          ]
+        }
       ]
     },
     {
@@ -41,16 +119,74 @@
       "title": "Agencia Humana",
       "subtitle": "Del impulso automático a la respuesta elegida",
       "type": "lectura",
-      "themes": ["regulacion"],
+      "themes": [
+        "regulacion"
+      ],
       "status": "publicada",
       "pwa": false,
-      "deeplink": "anclas-pendientes",
+      "deeplink": "hash",
       "sections": [
-        { "id": "s00", "title": "00 · La idea central", "keywords": ["agencia", "definición", "control ejecutivo", "precisión regulatoria", "vector"] },
-        { "id": "s01", "title": "01 · Cerebro predictivo", "keywords": ["predictive coding", "friston", "prior", "error de predicción", "percepción activa", "reencuadre", "neuroplasticidad"] },
-        { "id": "s02", "title": "02 · De reacción a respuesta", "keywords": ["amígdala", "prefrontal", "ruta reactiva", "ruta ejecutiva", "cortisol", "privación de sueño", "pausa", "nombrar", "lieberman", "cinco fases"] },
-        { "id": "s03", "title": "03 · Práctica", "keywords": ["ejercicio", "respiración", "biofeedback", "reencuadre verificable", "hecho", "interpretación"] },
-        { "id": "s04", "title": "04 · Autoevaluación", "keywords": ["reactivo", "pausa ocasional", "ejecutivo"] }
+        {
+          "id": "s00",
+          "title": "00 · La idea central",
+          "keywords": [
+            "agencia",
+            "definición",
+            "control ejecutivo",
+            "precisión regulatoria",
+            "vector"
+          ]
+        },
+        {
+          "id": "s01",
+          "title": "01 · Cerebro predictivo",
+          "keywords": [
+            "predictive coding",
+            "friston",
+            "prior",
+            "error de predicción",
+            "percepción activa",
+            "reencuadre",
+            "neuroplasticidad"
+          ]
+        },
+        {
+          "id": "s02",
+          "title": "02 · De reacción a respuesta",
+          "keywords": [
+            "amígdala",
+            "prefrontal",
+            "ruta reactiva",
+            "ruta ejecutiva",
+            "cortisol",
+            "privación de sueño",
+            "pausa",
+            "nombrar",
+            "lieberman",
+            "cinco fases"
+          ]
+        },
+        {
+          "id": "s03",
+          "title": "03 · Práctica",
+          "keywords": [
+            "ejercicio",
+            "respiración",
+            "biofeedback",
+            "reencuadre verificable",
+            "hecho",
+            "interpretación"
+          ]
+        },
+        {
+          "id": "s04",
+          "title": "04 · Autoevaluación",
+          "keywords": [
+            "reactivo",
+            "pausa ocasional",
+            "ejecutivo"
+          ]
+        }
       ]
     },
     {
@@ -59,15 +195,59 @@
       "title": "TDAH · Atlas Clínico",
       "subtitle": "Causas, cerebro, síntomas y tratamiento",
       "type": "atlas",
-      "themes": ["clinica"],
+      "themes": [
+        "clinica"
+      ],
       "status": "publicada",
       "pwa": false,
-      "deeplink": "tab-query-pendiente",
+      "deeplink": "tab-query",
       "sections": [
-        { "id": "causas",      "tab": "causas",      "title": "Causas",      "keywords": ["genética", "heredabilidad", "factores", "etiología"] },
-        { "id": "cerebro",     "tab": "cerebro",     "title": "Cerebro",     "keywords": ["prefrontal", "dopamina", "noradrenalina", "red por defecto", "función ejecutiva"] },
-        { "id": "sintomas",    "tab": "sintomas",    "title": "Síntomas",    "keywords": ["inatención", "hiperactividad", "impulsividad", "criterios", "dsm"] },
-        { "id": "tratamiento", "tab": "tratamiento", "title": "Tratamiento", "keywords": ["metilfenidato", "estimulantes", "terapia", "psicoeducación"] }
+        {
+          "id": "causas",
+          "tab": "causas",
+          "title": "Causas",
+          "keywords": [
+            "genética",
+            "heredabilidad",
+            "factores",
+            "etiología"
+          ]
+        },
+        {
+          "id": "cerebro",
+          "tab": "cerebro",
+          "title": "Cerebro",
+          "keywords": [
+            "prefrontal",
+            "dopamina",
+            "noradrenalina",
+            "red por defecto",
+            "función ejecutiva"
+          ]
+        },
+        {
+          "id": "sintomas",
+          "tab": "sintomas",
+          "title": "Síntomas",
+          "keywords": [
+            "inatención",
+            "hiperactividad",
+            "impulsividad",
+            "criterios",
+            "dsm"
+          ]
+        },
+        {
+          "id": "tratamiento",
+          "tab": "tratamiento",
+          "title": "Tratamiento",
+          "keywords": [
+            "metilfenidato",
+            "estimulantes",
+            "terapia",
+            "psicoeducación"
+          ]
+        }
       ]
     },
     {
@@ -76,15 +256,56 @@
       "title": "TEA · Atlas Clínico",
       "subtitle": "Causas, cerebro, síntomas y tratamiento",
       "type": "atlas",
-      "themes": ["clinica"],
+      "themes": [
+        "clinica"
+      ],
       "status": "publicada",
       "pwa": false,
-      "deeplink": "tab-query-pendiente",
+      "deeplink": "tab-query",
       "sections": [
-        { "id": "causas",      "tab": "causas",      "title": "Causas",      "keywords": ["genética", "neurodesarrollo", "factores"] },
-        { "id": "cerebro",     "tab": "cerebro",     "title": "Cerebro",     "keywords": ["conectividad", "amígdala", "procesamiento sensorial", "teoría de la mente"] },
-        { "id": "sintomas",    "tab": "sintomas",    "title": "Síntomas",    "keywords": ["comunicación social", "conductas repetitivas", "sensorial", "criterios", "dsm"] },
-        { "id": "tratamiento", "tab": "tratamiento", "title": "Tratamiento", "keywords": ["intervención", "apoyos", "terapia"] }
+        {
+          "id": "causas",
+          "tab": "causas",
+          "title": "Causas",
+          "keywords": [
+            "genética",
+            "neurodesarrollo",
+            "factores"
+          ]
+        },
+        {
+          "id": "cerebro",
+          "tab": "cerebro",
+          "title": "Cerebro",
+          "keywords": [
+            "conectividad",
+            "amígdala",
+            "procesamiento sensorial",
+            "teoría de la mente"
+          ]
+        },
+        {
+          "id": "sintomas",
+          "tab": "sintomas",
+          "title": "Síntomas",
+          "keywords": [
+            "comunicación social",
+            "conductas repetitivas",
+            "sensorial",
+            "criterios",
+            "dsm"
+          ]
+        },
+        {
+          "id": "tratamiento",
+          "tab": "tratamiento",
+          "title": "Tratamiento",
+          "keywords": [
+            "intervención",
+            "apoyos",
+            "terapia"
+          ]
+        }
       ]
     },
     {
@@ -93,15 +314,56 @@
       "title": "Trastorno Bipolar · Atlas Clínico",
       "subtitle": "Causas, cerebro, síntomas y tratamiento",
       "type": "atlas",
-      "themes": ["clinica"],
+      "themes": [
+        "clinica"
+      ],
       "status": "publicada",
       "pwa": false,
-      "deeplink": "tab-query-pendiente",
+      "deeplink": "tab-query",
       "sections": [
-        { "id": "causas",      "tab": "causas",      "title": "Causas",      "keywords": ["genética", "estrés", "ritmo circadiano"] },
-        { "id": "cerebro",     "tab": "cerebro",     "title": "Cerebro",     "keywords": ["límbico", "prefrontal", "neurotransmisores"] },
-        { "id": "sintomas",    "tab": "sintomas",    "title": "Síntomas",    "keywords": ["manía", "hipomanía", "depresión", "episodio", "criterios"] },
-        { "id": "tratamiento", "tab": "tratamiento", "title": "Tratamiento", "keywords": ["litio", "estabilizadores", "psicoterapia", "sueño"] }
+        {
+          "id": "causas",
+          "tab": "causas",
+          "title": "Causas",
+          "keywords": [
+            "genética",
+            "estrés",
+            "ritmo circadiano"
+          ]
+        },
+        {
+          "id": "cerebro",
+          "tab": "cerebro",
+          "title": "Cerebro",
+          "keywords": [
+            "límbico",
+            "prefrontal",
+            "neurotransmisores"
+          ]
+        },
+        {
+          "id": "sintomas",
+          "tab": "sintomas",
+          "title": "Síntomas",
+          "keywords": [
+            "manía",
+            "hipomanía",
+            "depresión",
+            "episodio",
+            "criterios"
+          ]
+        },
+        {
+          "id": "tratamiento",
+          "tab": "tratamiento",
+          "title": "Tratamiento",
+          "keywords": [
+            "litio",
+            "estabilizadores",
+            "psicoterapia",
+            "sueño"
+          ]
+        }
       ]
     },
     {
@@ -110,15 +372,56 @@
       "title": "Mysterium Animæ · Modelo de la Psique",
       "subtitle": "C. G. Jung: mandala, tipos, arquetipos e individuación",
       "type": "lectura",
-      "themes": ["profundidad"],
+      "themes": [
+        "profundidad"
+      ],
       "status": "publicada",
       "pwa": false,
       "deeplink": "hash",
       "sections": [
-        { "id": "mandala",    "title": "El Mandala del Alma", "keywords": ["mandala", "consciente", "inconsciente", "yo", "sí-mismo"] },
-        { "id": "tipos",      "title": "Los Ocho Tipos Psicológicos", "keywords": ["introversión", "extraversión", "pensamiento", "sentimiento", "sensación", "intuición"] },
-        { "id": "arquetipos", "title": "Los Arquetipos del Inconsciente Colectivo", "keywords": ["sombra", "ánima", "ánimus", "persona", "arquetipo"] },
-        { "id": "fases",      "title": "Las Tres Fases de la Individuación", "keywords": ["individuación", "integración", "sombra"] }
+        {
+          "id": "mandala",
+          "title": "El Mandala del Alma",
+          "keywords": [
+            "mandala",
+            "consciente",
+            "inconsciente",
+            "yo",
+            "sí-mismo"
+          ]
+        },
+        {
+          "id": "tipos",
+          "title": "Los Ocho Tipos Psicológicos",
+          "keywords": [
+            "introversión",
+            "extraversión",
+            "pensamiento",
+            "sentimiento",
+            "sensación",
+            "intuición"
+          ]
+        },
+        {
+          "id": "arquetipos",
+          "title": "Los Arquetipos del Inconsciente Colectivo",
+          "keywords": [
+            "sombra",
+            "ánima",
+            "ánimus",
+            "persona",
+            "arquetipo"
+          ]
+        },
+        {
+          "id": "fases",
+          "title": "Las Tres Fases de la Individuación",
+          "keywords": [
+            "individuación",
+            "integración",
+            "sombra"
+          ]
+        }
       ]
     },
     {
@@ -127,13 +430,46 @@
       "title": "Neurophysiology Control Lab",
       "subtitle": "SNA, eje HPA y experiencia subjetiva · comparador A/B contra reposo",
       "type": "simulador",
-      "themes": ["fisiologia", "regulacion"],
+      "themes": [
+        "fisiologia",
+        "regulacion"
+      ],
       "status": "pendiente-publicar",
       "pwa": false,
       "deeplink": "hash",
       "sections": [
-        { "id": "app",     "title": "Simulador y comparador", "keywords": ["amenaza", "dolor", "ejercicio", "respiración", "reposo", "cortisol", "adrenalina", "simpático", "vagal", "hrv", "rmssd", "frecuencia cardíaca", "presión arterial", "privación de sueño"] },
-        { "id": "science", "title": "Fundamento científico y alcance", "keywords": ["evidencia", "referencias", "tsst", "kirschbaum", "barorreflejo", "límites del modelo"] }
+        {
+          "id": "app",
+          "title": "Simulador y comparador",
+          "keywords": [
+            "amenaza",
+            "dolor",
+            "ejercicio",
+            "respiración",
+            "reposo",
+            "cortisol",
+            "adrenalina",
+            "simpático",
+            "vagal",
+            "hrv",
+            "rmssd",
+            "frecuencia cardíaca",
+            "presión arterial",
+            "privación de sueño"
+          ]
+        },
+        {
+          "id": "science",
+          "title": "Fundamento científico y alcance",
+          "keywords": [
+            "evidencia",
+            "referencias",
+            "tsst",
+            "kirschbaum",
+            "barorreflejo",
+            "límites del modelo"
+          ]
+        }
       ]
     }
   ]
