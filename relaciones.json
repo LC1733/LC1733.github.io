@@ -2,26 +2,149 @@
   "version": "1.0",
   "note": "Cruces editoriales entre secciones de distintas apps. 'from'/'to' usan el formato app#seccion (id de catalog.json). 'kind' es el tipo de relación.",
   "kinds": {
-    "mecanismo":  "Comparte mecanismo neurobiológico",
-    "aplica":     "Concepto que se aplica o entrena",
-    "contrasta":  "Contraste útil para no confundir",
+    "mecanismo": "Comparte mecanismo neurobiológico",
+    "aplica": "Concepto que se aplica o entrena",
+    "contrasta": "Contraste útil para no confundir",
     "profundiza": "Amplía o fundamenta"
   },
   "edges": [
-    { "from": "sesgos#phases",       "to": "agencia#s02",  "kind": "mecanismo",  "label": "Los sesgos de percepción operan por la ruta reactiva (amígdala → impulso) antes de la pausa ejecutiva." },
-    { "from": "sesgos#extra-grid",   "to": "agencia#s01",  "kind": "profundiza", "label": "Efecto marco y anclaje son priors: el cerebro predictivo los actualiza solo con error de predicción suficiente." },
-    { "from": "sesgos#quiz-section", "to": "agencia#s04",  "kind": "aplica",     "label": "Dos autoevaluaciones complementarias: qué sesgos tiendo a cometer y en qué rango de agencia opero." },
-    { "from": "agencia#s02",         "to": "neuro#app",    "kind": "mecanismo",  "label": "La ruta reactiva tiene correlato fisiológico: escenario Amenaza aguda (SAM rápida, HPA lenta)." },
-    { "from": "agencia#s03",         "to": "neuro#app",    "kind": "aplica",     "label": "El ejercicio de pausa con respiración regulada se corresponde con el escenario Respiración lenta guiada." },
-    { "from": "agencia#s02",         "to": "neuro#science","kind": "profundiza", "label": "Privación de sueño y cortisol: el simulador la modela como modificador que desplaza el reposo." },
-    { "from": "neuro#app",           "to": "sesgos#phases","kind": "contrasta",  "label": "Ejercicio sube FC sin amenaza percibida: activación fisiológica ≠ sesgo ni ansiedad." },
-    { "from": "tdah#cerebro",        "to": "agencia#s02",  "kind": "mecanismo",  "label": "Función ejecutiva prefrontal y dopamina: el sustrato que la agencia entrena y el TDAH compromete." },
-    { "from": "tdah#sintomas",       "to": "sesgos#phases","kind": "contrasta",  "label": "Impulsividad clínica vs. sesgo de actuación: distinto origen, conducta parecida." },
-    { "from": "tea#cerebro",         "to": "agencia#s01",  "kind": "profundiza", "label": "Procesamiento sensorial y predicción: hipótesis de priors atenuados en TEA dentro del marco predictivo." },
-    { "from": "bipo#sintomas",       "to": "sesgos#phases","kind": "contrasta",  "label": "Exceso de confianza e ilusión de control como rasgo de decisión vs. como síntoma de un episodio maníaco." },
-    { "from": "bipo#tratamiento",    "to": "neuro#app",    "kind": "mecanismo",  "label": "Regularidad del sueño en el manejo del trastorno bipolar y su efecto sobre el punto de partida autonómico." },
-    { "from": "jung#arquetipos",     "to": "agencia#s01",  "kind": "profundiza", "label": "La sombra como conjunto de contenidos no integrados en el modelo consciente del mundo." },
-    { "from": "jung#tipos",          "to": "sesgos#phases","kind": "contrasta",  "label": "Tipos psicológicos (preferencias estables) frente a sesgos (errores sistemáticos) — no son lo mismo." },
-    { "from": "jung#fases",          "to": "agencia#s00",  "kind": "aplica",     "label": "Individuación y agencia como procesos que se ejercen, no estados que se alcanzan." }
+    {
+      "from": "sesgos#phases",
+      "to": "agencia#s02",
+      "kind": "mecanismo",
+      "label": "Los sesgos de percepción operan por la ruta reactiva (amígdala → impulso) antes de la pausa ejecutiva."
+    },
+    {
+      "from": "sesgos#extra-grid",
+      "to": "agencia#s01",
+      "kind": "profundiza",
+      "label": "Efecto marco y anclaje son priors: el cerebro predictivo los actualiza solo con error de predicción suficiente."
+    },
+    {
+      "from": "sesgos#quiz-section",
+      "to": "agencia#s04",
+      "kind": "aplica",
+      "label": "Dos autoevaluaciones complementarias: qué sesgos tiendo a cometer y en qué rango de agencia opero."
+    },
+    {
+      "from": "agencia#s02",
+      "to": "neuro#app",
+      "kind": "mecanismo",
+      "label": "La ruta reactiva tiene correlato fisiológico: escenario Amenaza aguda (SAM rápida, HPA lenta)."
+    },
+    {
+      "from": "agencia#s03",
+      "to": "neuro#app",
+      "kind": "aplica",
+      "label": "El ejercicio de pausa con respiración regulada se corresponde con el escenario Respiración lenta guiada."
+    },
+    {
+      "from": "agencia#s02",
+      "to": "neuro#science",
+      "kind": "profundiza",
+      "label": "Privación de sueño y cortisol: el simulador la modela como modificador que desplaza el reposo."
+    },
+    {
+      "from": "neuro#app",
+      "to": "sesgos#phases",
+      "kind": "contrasta",
+      "label": "Ejercicio sube FC sin amenaza percibida: activación fisiológica ≠ sesgo ni ansiedad."
+    },
+    {
+      "from": "tdah#cerebro",
+      "to": "agencia#s02",
+      "kind": "mecanismo",
+      "label": "Función ejecutiva prefrontal y dopamina: el sustrato que la agencia entrena y el TDAH compromete."
+    },
+    {
+      "from": "tdah#sintomas",
+      "to": "sesgos#phases",
+      "kind": "contrasta",
+      "label": "Impulsividad clínica vs. sesgo de actuación: distinto origen, conducta parecida."
+    },
+    {
+      "from": "tea#cerebro",
+      "to": "agencia#s01",
+      "kind": "profundiza",
+      "label": "Procesamiento sensorial y predicción: hipótesis de priors atenuados en TEA dentro del marco predictivo."
+    },
+    {
+      "from": "bipo#sintomas",
+      "to": "sesgos#phases",
+      "kind": "contrasta",
+      "label": "Exceso de confianza e ilusión de control como rasgo de decisión vs. como síntoma de un episodio maníaco."
+    },
+    {
+      "from": "bipo#tratamiento",
+      "to": "neuro#app",
+      "kind": "mecanismo",
+      "label": "Regularidad del sueño en el manejo del trastorno bipolar y su efecto sobre el punto de partida autonómico."
+    },
+    {
+      "from": "jung#arquetipos",
+      "to": "agencia#s01",
+      "kind": "profundiza",
+      "label": "La sombra como conjunto de contenidos no integrados en el modelo consciente del mundo."
+    },
+    {
+      "from": "jung#tipos",
+      "to": "sesgos#phases",
+      "kind": "contrasta",
+      "label": "Tipos psicológicos (preferencias estables) frente a sesgos (errores sistemáticos) — no son lo mismo."
+    },
+    {
+      "from": "jung#fases",
+      "to": "agencia#s00",
+      "kind": "aplica",
+      "label": "Individuación y agencia como procesos que se ejercen, no estados que se alcanzan."
+    },
+    {
+      "from": "tdah#sintomas",
+      "to": "dsm5#cat1",
+      "kind": "profundiza",
+      "label": "El TDAH pertenece a los trastornos del neurodesarrollo del DSM-5: aquí los criterios formales del capítulo."
+    },
+    {
+      "from": "tea#sintomas",
+      "to": "dsm5#cat1",
+      "kind": "profundiza",
+      "label": "El TEA se clasifica junto al TDAH en el neurodesarrollo; el DSM-5 unificó los antiguos subtipos en un espectro."
+    },
+    {
+      "from": "bipo#sintomas",
+      "to": "dsm5#cat3",
+      "kind": "profundiza",
+      "label": "Criterios DSM-5 de bipolar I, II y ciclotimia; comparar con la descripción clínica del atlas."
+    },
+    {
+      "from": "bipo#tratamiento",
+      "to": "dsm5#difdiag",
+      "kind": "contrasta",
+      "label": "Diferenciar episodio maníaco de TDAH, esquizoafectivo y trastorno límite: el diferencial que más confunde."
+    },
+    {
+      "from": "dsm5#cat5",
+      "to": "neuro#app",
+      "kind": "mecanismo",
+      "label": "Trastorno de pánico y ansiedad generalizada: la activación SAM del escenario Amenaza aguda, sostenida o desproporcionada."
+    },
+    {
+      "from": "dsm5#cat7",
+      "to": "agencia#s02",
+      "kind": "mecanismo",
+      "label": "TEPT y ruta reactiva: el estímulo dispara la respuesta antes de la pausa ejecutiva; la regulación es objetivo terapéutico."
+    },
+    {
+      "from": "dsm5#comparativa",
+      "to": "sesgos#phases",
+      "kind": "contrasta",
+      "label": "Los cambios DSM-IV→DSM-5 ilustran anclaje y status quo en la propia clasificación diagnóstica."
+    },
+    {
+      "from": "dsm5#quiz",
+      "to": "sesgos#quiz-section",
+      "kind": "aplica",
+      "label": "Dos prácticas de autodiagnóstico: criterios clínicos y sesgos propios del que diagnostica."
+    }
   ]
 }

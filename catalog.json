@@ -367,6 +367,194 @@
       ]
     },
     {
+      "id": "dsm5",
+      "repo": "DSM5",
+      "title": "DSM5",
+      "subtitle": "Dashboard clínico de estudio del DSM-5: ocho categorías, buscador, CIE-10, comparativa DSM-IV/5, simulador, casos, diagnóstico diferencial y flashcards",
+      "type": "atlas",
+      "themes": [
+        "clinica"
+      ],
+      "status": "publicada",
+      "pwa": false,
+      "deeplink": "hash",
+      "sections": [
+        {
+          "id": "home",
+          "title": "Inicio · Dashboard",
+          "keywords": [
+            "dsm-5",
+            "manual diagnóstico",
+            "progreso",
+            "kpi"
+          ]
+        },
+        {
+          "id": "cat1",
+          "title": "Trastornos del neurodesarrollo",
+          "keywords": [
+            "tdah",
+            "tea",
+            "autismo",
+            "discapacidad intelectual",
+            "aprendizaje",
+            "tics"
+          ]
+        },
+        {
+          "id": "cat2",
+          "title": "Espectro de la esquizofrenia",
+          "keywords": [
+            "esquizofrenia",
+            "psicosis",
+            "delirios",
+            "alucinaciones",
+            "esquizoafectivo"
+          ]
+        },
+        {
+          "id": "cat3",
+          "title": "Trastornos bipolares",
+          "keywords": [
+            "bipolar",
+            "manía",
+            "hipomanía",
+            "ciclotimia",
+            "episodio"
+          ]
+        },
+        {
+          "id": "cat4",
+          "title": "Trastornos depresivos",
+          "keywords": [
+            "depresión mayor",
+            "distimia",
+            "persistente",
+            "disfórico premenstrual"
+          ]
+        },
+        {
+          "id": "cat5",
+          "title": "Trastornos de ansiedad",
+          "keywords": [
+            "ansiedad generalizada",
+            "pánico",
+            "fobia",
+            "agorafobia",
+            "ansiedad social"
+          ]
+        },
+        {
+          "id": "cat6",
+          "title": "TOC y trastornos relacionados",
+          "keywords": [
+            "toc",
+            "obsesivo",
+            "compulsivo",
+            "dismórfico",
+            "acumulación",
+            "tricotilomanía"
+          ]
+        },
+        {
+          "id": "cat7",
+          "title": "Trauma y factores estresantes",
+          "keywords": [
+            "tept",
+            "estrés postraumático",
+            "estrés agudo",
+            "adaptación",
+            "apego"
+          ]
+        },
+        {
+          "id": "cat8",
+          "title": "Trastornos de personalidad",
+          "keywords": [
+            "límite",
+            "narcisista",
+            "antisocial",
+            "evitativo",
+            "obsesivo-compulsivo de la personalidad",
+            "clúster"
+          ]
+        },
+        {
+          "id": "buscador",
+          "title": "Buscador de trastornos",
+          "keywords": [
+            "buscar",
+            "criterios",
+            "trastorno"
+          ]
+        },
+        {
+          "id": "cie",
+          "title": "Códigos CIE-10",
+          "keywords": [
+            "cie-10",
+            "código",
+            "f20",
+            "f31",
+            "f32",
+            "f41",
+            "f42",
+            "f43",
+            "f60",
+            "f84",
+            "f90"
+          ]
+        },
+        {
+          "id": "comparativa",
+          "title": "DSM-IV vs DSM-5",
+          "keywords": [
+            "dsm-iv",
+            "cambios",
+            "ejes",
+            "comparativa"
+          ]
+        },
+        {
+          "id": "quiz",
+          "title": "Simulador diagnóstico",
+          "keywords": [
+            "quiz",
+            "simulador",
+            "preguntas",
+            "práctica"
+          ]
+        },
+        {
+          "id": "casos",
+          "title": "Casos clínicos",
+          "keywords": [
+            "caso clínico",
+            "viñeta",
+            "diagnóstico"
+          ]
+        },
+        {
+          "id": "difdiag",
+          "title": "Diagnóstico diferencial",
+          "keywords": [
+            "diferencial",
+            "descartar",
+            "comorbilidad"
+          ]
+        },
+        {
+          "id": "flash",
+          "title": "Flashcards clínicas",
+          "keywords": [
+            "flashcards",
+            "memorizar",
+            "repaso"
+          ]
+        }
+      ]
+    },
+    {
       "id": "jung",
       "repo": "modelo-psique-jung",
       "title": "Mysterium Animæ · Modelo de la Psique",
