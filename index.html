@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07111d">
+<title>Mente & Decisión · Hub</title>
+<style>
+:root{--bg:#07111d;--surface:#101e2c;--surface2:#142638;--stroke:#284052;--ink:#ecf5f7;--muted:#a7bbc5;--cyan:#43d9d1;--amber:#ffc56d;--red:#ff7878;--violet:#bd9aff;--blue:#7db9ff;--green:#8ee0ad;--shadow:0 18px 48px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 5% -10%,#133b49 0,transparent 42%),var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,select,input{font:inherit}button{cursor:pointer}a{color:var(--cyan)}
+.wrap{max-width:1500px;margin:auto;padding:24px clamp(14px,3vw,42px) 60px}
+.eyebrow{color:var(--cyan);letter-spacing:.17em;text-transform:uppercase;font-size:11px;font-weight:800}
+.top{display:flex;justify-content:space-between;align-items:start;gap:20px}
+.top h1{font-size:clamp(27px,3.7vw,46px);font-weight:720;letter-spacing:-.045em;line-height:1.08;margin:9px 0}
+.top p{color:var(--muted);max-width:760px;margin:0}
+.stamp{border:1px solid #398075;background:#103431;color:#a7f4de;padding:8px 11px;border-radius:99px;font-size:12px;white-space:nowrap;font-weight:700}
+.panel{background:linear-gradient(145deg,#122333,#0e1b29);border:1px solid var(--stroke);border-radius:18px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;margin-top:22px}
+.sidebar{padding:19px;align-self:start;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto}
+.section-title{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:2px 0 12px}
+.search{display:flex;gap:8px}
+.search input{flex:1;padding:11px 12px;border-radius:10px;border:1px solid #476173;background:#0b1b29;color:var(--ink)}
+.search input:focus{outline:2px solid var(--cyan);outline-offset:1px}
+.btn{border:1px solid #486274;border-radius:10px;background:#1c3443;color:var(--ink);padding:9px 12px;font-weight:700;font-size:13px}
+.btn.primary{background:var(--cyan);border-color:var(--cyan);color:#062529}
+.btn:hover,.chip:hover,.card:hover{filter:brightness(1.12)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--stroke);background:#0b1b29;color:var(--muted);border-radius:99px;padding:5px 11px;font-size:12px;font-weight:650}
+.chip.active{color:#062529;background:var(--tone,var(--cyan));border-color:var(--tone,var(--cyan))}
+.chip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--tone,var(--cyan));margin-right:6px;vertical-align:middle}
+.chip.active .dot{background:#062529}
+hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
+.side-note{font-size:11.5px;color:var(--muted);line-height:1.5;margin:10px 0 0}
+.main{min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{padding:17px;position:relative;overflow:hidden;text-align:left;color:var(--ink);border:1px solid var(--stroke);background:linear-gradient(145deg,#122333,#0e1b29);border-radius:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-height:180px}
+.card:before{content:"";height:3px;position:absolute;top:0;left:0;right:0;background:var(--tone,var(--cyan))}
+.card .kind{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--tone,var(--cyan));font-weight:800}
+.card h3{margin:0;font-size:18px;letter-spacing:-.02em;line-height:1.2}
+.card p{margin:0;color:var(--muted);font-size:13px;flex:1}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.card .meta span{border:1px solid var(--stroke);border-radius:99px;padding:2px 8px}
+.card[disabled]{opacity:.55;cursor:not-allowed}
+.card .pend{color:var(--amber)}
+.results{margin-top:14px;padding:17px 20px}
+.results h3{margin:0 0 10px;font-size:16px}
+.hit{display:flex;gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--stroke);cursor:pointer}
+.hit:first-of-type{border-top:0}
+.hit .tag{flex:0 0 auto;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tone,var(--cyan));border:1px solid var(--tone,var(--cyan));border-radius:6px;padding:2px 7px;margin-top:2px}
+.hit b{display:block}.hit small{color:var(--muted)}
+.hit mark{background:#3b4d1f;color:#e6f5b8;border-radius:3px;padding:0 2px}
+.empty{color:var(--muted);padding:26px;text-align:center}
+/* viewer */
+.viewer{display:none;flex-direction:column;position:fixed;inset:0;background:var(--bg);z-index:50}
+.viewer.open{display:flex}
+.vbar{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--stroke);background:#0b1826;flex-wrap:wrap}
+.vbar .title{font-weight:760;letter-spacing:-.02em}
+.vbar .title small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.vbar select{padding:8px 30px 8px 10px;border-radius:9px;border:1px solid #476173;background:#0b1b29;color:var(--ink);max-width:280px}
+.vbar .spacer{flex:1}
+.viewer iframe{flex:1;border:0;width:100%;background:#fff}
+.rel{display:flex;gap:8px;flex-wrap:wrap;padding:8px 14px;background:#0d1c2a;border-bottom:1px solid var(--stroke);font-size:12px;align-items:center}
+.rel .lab{color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px}
+.rel button{border:1px solid var(--stroke);background:#122333;color:var(--ink);border-radius:99px;padding:5px 11px;font-size:12px;max-width:100%;text-align:left}
+.rel button b{color:var(--tone,var(--cyan))}
+.notice{font-size:12px;color:var(--amber);background:#403424;border-radius:8px;padding:6px 10px}
+.footer{color:var(--muted);font-size:12px;margin-top:25px;text-align:center}
+@media(max-width:900px){.grid{display:block}.sidebar{position:static;max-height:none;margin-bottom:15px}.top{display:block}.stamp{display:inline-block;margin-top:12px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top"><div><div class="eyebrow">Hub · familia "mente y decisión" · nivel B</div><h1>Mente &amp; Decisión</h1><p>Un solo punto de entrada a los laboratorios, matrices, atlas y lecturas publicados en esta cuenta. Filtra por tipo o tema, busca un concepto en todas las apps a la vez y salta a la sección exacta. Cada app conserva su propio diseño dentro del visor.</p></div><span class="stamp" id="count">● cargando catálogo…</span></header>
+
+ <div class="grid">
+  <aside class="panel sidebar">
+   <div class="section-title">01 / Buscar en todo</div>
+   <div class="search"><input id="q" type="search" placeholder="cortisol, anclaje, amígdala, sombra…" autocomplete="off"><button class="btn" id="clear" type="button" title="Limpiar">✕</button></div>
+   <p class="side-note">Busca en títulos, secciones y palabras clave del catálogo. No lee el texto completo de cada app.</p>
+   <hr class="div">
+   <div class="section-title">02 / Tipo</div><div class="chips" id="type-chips"></div>
+   <hr class="div">
+   <div class="section-title">03 / Tema</div><div class="chips" id="theme-chips"></div>
+   <hr class="div">
+   <div class="section-title">04 / Catálogo</div>
+   <p class="side-note" id="cat-info">Catálogo central + <code>catalog.json</code> propio de cada app cuando exista.</p>
+  </aside>
+
+  <main class="main">
+   <section class="results panel" id="results" hidden></section>
+   <section class="cards" id="cards"></section>
+  </main>
+ </div>
+ <div class="footer">Hub de un solo archivo · lee <code>catalog.json</code> y <code>relaciones.json</code> del mismo directorio · las apps se abren desde su propia URL.</div>
+</div>
+
+<div class="viewer" id="viewer" aria-hidden="true">
+ <div class="vbar">
+  <button class="btn" id="back" type="button">← Hub</button>
+  <div class="title" id="vtitle"></div>
+  <span class="spacer"></span>
+  <select id="vsec" aria-label="Ir a sección"></select>
+  <a class="btn" id="vopen" href="#" target="_blank" rel="noopener">Abrir aparte ↗</a>
+ </div>
+ <div class="rel" id="vrel"></div>
+ <iframe id="frame" title="Aplicación seleccionada" allow="fullscreen"></iframe>
+</div>
+
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+let CAT=null,REL=null,filterType=null,filterTheme=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const tone=app=>CAT.types[app.type]?.color||'#43d9d1';
+const byId=id=>CAT.apps.find(a=>a.id===id);
+
+async function loadJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(url+': '+r.status);return r.json();}
+async function init(){
+ try{[CAT,REL]=await Promise.all([loadJSON('./catalog.json'),loadJSON('./relaciones.json')]);}
+ catch(e){$('cards').innerHTML=`<div class="empty">No se pudo leer <code>catalog.json</code> / <code>relaciones.json</code>.<br><small>${esc(e.message)}</small><br><br>Este hub debe servirse por http(s) (GitHub Pages o un servidor local); abierto como archivo el navegador bloquea la lectura.</div>`;$('count').textContent='● sin catálogo';return;}
+ // Convención nivel B: cada app puede publicar su propio catalog.json y sobreescribir su entrada.
+ let own=0;
+ await Promise.all(CAT.apps.map(async a=>{if(a.status!=='publicada')return;try{const o=await loadJSON(appBase(a)+'catalog.json');Object.assign(a,o,{id:a.id,repo:a.repo});own++;}catch(_){/* sin catálogo propio: se usa el central */}}));
+ $('cat-info').textContent=own?`Catálogo central + ${own} app(s) con catalog.json propio.`:'Catálogo central (ninguna app publica aún su catalog.json propio).';
+ renderChips();renderCards();bind();fromHash();
+}
+function appBase(a){return (CAT.base||'/')+a.repo+'/';}
+function appURL(a,sec){if(a.status!=='publicada')return null;let u=appBase(a);if(!sec)return u;const s=a.sections.find(x=>x.id===sec);if(!s)return u;if(a.deeplink==='tab-query-pendiente'&&s.tab)return u+'?tab='+encodeURIComponent(s.tab);return u+'#'+encodeURIComponent(s.id);}
+
+function renderChips(){
+ $('type-chips').innerHTML=Object.entries(CAT.types).map(([k,v])=>`<button class="chip" data-type="${k}" style="--tone:${v.color}"><span class="dot"></span>${esc(v.label)}</button>`).join('');
+ $('theme-chips').innerHTML=Object.entries(CAT.themes).map(([k,v])=>`<button class="chip" data-theme="${k}">${esc(v)}</button>`).join('');
+}
+function visibleApps(){return CAT.apps.filter(a=>(!filterType||a.type===filterType)&&(!filterTheme||a.themes.includes(filterTheme)));}
+function renderCards(){
+ const apps=visibleApps();
+ $('count').textContent=`● ${CAT.apps.filter(a=>a.status==='publicada').length} publicadas · ${CAT.apps.length} en catálogo`;
+ $('cards').innerHTML=apps.length?apps.map(a=>{const pub=a.status==='publicada';return `<button class="card" data-app="${a.id}" style="--tone:${tone(a)}" ${pub?'':'disabled'}><div class="kind">${esc(CAT.types[a.type]?.label||a.type)}</div><h3>${esc(a.title)}</h3><p>${esc(a.subtitle||'')}</p><div class="meta">${a.themes.map(t=>`<span>${esc(CAT.themes[t]||t)}</span>`).join('')}<span>${a.sections.length} secciones</span>${a.pwa?'<span>PWA</span>':''}${pub?'':'<span class="pend">pendiente de publicar</span>'}</div></button>`}).join(''):'<div class="empty">Ningún elemento coincide con los filtros.</div>';
+ document.querySelectorAll('.chip[data-type]').forEach(c=>c.classList.toggle('active',c.dataset.type===filterType));
+ document.querySelectorAll('.chip[data-theme]').forEach(c=>c.classList.toggle('active',c.dataset.theme===filterTheme));
+}
+
+/* ---------- búsqueda global ---------- */
+function search(q){
+ const box=$('results');const nq=norm(q.trim());
+ if(nq.length<2){box.hidden=true;box.innerHTML='';return;}
+ const hits=[];
+ for(const a of visibleApps()){
+  const inApp=norm(a.title+' '+(a.subtitle||'')).includes(nq);
+  for(const s of a.sections){const hay=norm(s.title+' '+(s.keywords||[]).join(' '));const kw=(s.keywords||[]).filter(k=>norm(k).includes(nq));if(hay.includes(nq))hits.push({a,s,kw,score:(norm(s.title).includes(nq)?2:0)+kw.length});}
+  if(inApp&&!hits.some(h=>h.a===a))hits.push({a,s:null,kw:[],score:1});
+ }
+ hits.sort((x,y)=>y.score-x.score);
+ box.hidden=false;
+ box.innerHTML=`<h3>${hits.length} resultado(s) para “${esc(q)}”</h3>`+(hits.length?hits.map((h,i)=>`<div class="hit" data-i="${i}" style="--tone:${tone(h.a)}"><span class="tag">${esc(CAT.types[h.a.type]?.label||'')}</span><div><b>${esc(h.a.title)}${h.s?' · '+esc(h.s.title):''}</b><small>${h.kw.length?'palabras clave: '+h.kw.map(k=>`<mark>${esc(k)}</mark>`).join(', '):esc(h.a.subtitle||'')}${h.a.status!=='publicada'?' · <span style="color:var(--amber)">pendiente de publicar</span>':''}</small></div></div>`).join(''):'<div class="empty">Sin coincidencias en el catálogo.</div>');
+ box.querySelectorAll('.hit').forEach(el=>el.addEventListener('click',()=>{const h=hits[+el.dataset.i];if(h.a.status==='publicada')openApp(h.a.id,h.s?.id);}));
+}
+
+/* ---------- visor lado a lado con relaciones ---------- */
+function relationsFor(appId,secId){
+ return REL.edges.filter(e=>{const [fa,fs]=e.from.split('#'),[ta,ts]=e.to.split('#');return (fa===appId&&(!secId||fs===secId))||(ta===appId&&(!secId||ts===secId));}).map(e=>{const [fa,fs]=e.from.split('#'),[ta,ts]=e.to.split('#');const other=fa===appId?{app:ta,sec:ts}:{app:fa,sec:fs};return {...e,other};});
+}
+function openApp(id,sec){
+ const a=byId(id);if(!a||a.status!=='publicada')return;
+ const url=appURL(a,sec);
+ $('vtitle').innerHTML=`${esc(a.title)}<small>${esc(CAT.types[a.type]?.label||'')} · ${esc(a.subtitle||'')}</small>`;
+ $('vsec').innerHTML=`<option value="">Inicio</option>`+a.sections.map(s=>`<option value="${esc(s.id)}" ${s.id===sec?'selected':''}>${esc(s.title)}</option>`).join('');
+ $('vopen').href=url;
+ const rels=relationsFor(id,sec).concat(sec?relationsFor(id,null).filter(r=>!relationsFor(id,sec).includes(r)).slice(0,3):[]);
+ const seen=new Set();
+ $('vrel').innerHTML=`<span class="lab">Relacionado</span>`+(rels.length?rels.filter(r=>{const k=r.other.app+'#'+r.other.sec;if(seen.has(k))return false;seen.add(k);return true;}).map((r,i)=>{const o=byId(r.other.app);const os=o?.sections.find(s=>s.id===r.other.sec);return `<button data-app="${esc(r.other.app)}" data-sec="${esc(r.other.sec||'')}" style="--tone:${o?tone(o):'#43d9d1'}" title="${esc(r.label)}"><b>${esc(o?.title||r.other.app)}</b>${os?' · '+esc(os.title):''} <span style="color:var(--muted)">· ${esc(REL.kinds[r.kind]||r.kind)}</span></button>`}).join(''):'<span style="color:var(--muted)">sin cruces editoriales aún</span>');
+ if(a.deeplink&&a.deeplink.endsWith('pendiente')&&sec)$('vrel').insertAdjacentHTML('beforeend',`<span class="notice">Esta app aún no acepta salto directo a sección (retrofit pendiente); se abre al inicio.</span>`);
+ $('vrel').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const o=byId(b.dataset.app);if(o?.status==='publicada')openApp(b.dataset.app,b.dataset.sec||undefined);}));
+ $('frame').src=url;
+ $('viewer').classList.add('open');$('viewer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+ location.hash='app='+encodeURIComponent(id)+(sec?'&sec='+encodeURIComponent(sec):'');
+}
+function closeViewer(){$('viewer').classList.remove('open');$('viewer').setAttribute('aria-hidden','true');$('frame').src='about:blank';document.body.style.overflow='';if(location.hash)history.replaceState(null,'',location.pathname+location.search);}
+function fromHash(){const p=new URLSearchParams(location.hash.replace(/^#/,''));if(p.get('q')){$('q').value=p.get('q');search(p.get('q'));}if(p.get('app'))openApp(p.get('app'),p.get('sec')||undefined);}
+
+function bind(){
+ $('q').addEventListener('input',e=>search(e.target.value));
+ $('clear').addEventListener('click',()=>{$('q').value='';search('');});
+ $('type-chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;filterType=filterType===c.dataset.type?null:c.dataset.type;renderCards();search($('q').value);});
+ $('theme-chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;filterTheme=filterTheme===c.dataset.theme?null:c.dataset.theme;renderCards();search($('q').value);});
+ $('cards').addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.disabled)openApp(c.dataset.app);});
+ $('back').addEventListener('click',closeViewer);
+ $('vsec').addEventListener('change',e=>{const p=new URLSearchParams(location.hash.replace(/^#/,''));openApp(p.get('app'),e.target.value||undefined);});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('viewer').classList.contains('open'))closeViewer();});
+ window.addEventListener('hashchange',()=>{if(!location.hash&&$('viewer').classList.contains('open'))closeViewer();});
+}
+init();
+})();
+</script>
+</body>
+</html>
