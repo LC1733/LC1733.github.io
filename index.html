@@ -69,6 +69,50 @@ hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
 .notice{font-size:12px;color:var(--amber);background:#403424;border-radius:8px;padding:6px 10px}
 .footer{color:var(--muted);font-size:12px;margin-top:25px;text-align:center}
 @media(max-width:900px){.grid{display:block}.sidebar{position:static;max-height:none;margin-bottom:15px}.top{display:block}.stamp{display:inline-block;margin-top:12px}}
+#vreltoggle{display:none}
+.vbar{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+/* ═══ Móvil: inicio directo a las apps y visor a pantalla completa ═══ */
+@media(max-width:900px){
+ body{min-height:100dvh}
+ .wrap{padding:max(16px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 40px max(14px,env(safe-area-inset-left))}
+ .top h1{font-size:30px;margin:6px 0}
+ .top p{font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ .stamp{font-size:11px;padding:6px 10px}
+ .grid{margin-top:16px}
+ .sidebar{padding:12px;border-radius:16px}
+ .desk-only,.sidebar .side-note,.sidebar hr.div{display:none}
+ .section-title{margin:12px 0 7px;font-size:11px}
+ .sidebar .section-title:first-child{margin-top:0}
+ .search input{font-size:16px;padding:11px 12px;min-height:44px}
+ .search .btn{min-width:44px;min-height:44px}
+ .chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -12px;padding:0 12px 2px;scroll-snap-type:x proximity}
+ .chips::-webkit-scrollbar{display:none}
+ .chip{flex:0 0 auto;min-height:40px;padding:8px 14px;font-size:13px;white-space:nowrap;scroll-snap-align:start}
+ .cards{grid-template-columns:1fr;gap:12px}
+ .card{min-height:0;padding:15px 16px;gap:6px}
+ .card h3{font-size:17px}
+ .card p{font-size:13.5px}
+ .results{padding:14px 16px}
+ .hit{min-height:44px}
+ .footer{font-size:11px}
+ /* visor */
+ .vbar{flex-wrap:nowrap;gap:6px;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left))}
+ .vbar .btn{min-height:40px;min-width:40px;padding:8px 10px;flex:0 0 auto}
+ .vbar .lbl{display:none}
+ .vbar .title{flex:1;min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .vbar .title small{display:none}
+ .vbar .spacer{display:none}
+ .vbar select{flex:0 1 120px;min-width:0;max-width:140px;min-height:40px;font-size:16px;padding:6px 26px 6px 8px}
+ #vreltoggle{display:inline-flex;align-items:center;gap:4px}
+ #vreltoggle[aria-expanded="true"]{background:var(--cyan);border-color:var(--cyan);color:#062529}
+ .vbar,.rel{flex-shrink:0}
+ .rel{display:none;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px}
+ .rel::-webkit-scrollbar{display:none}
+ .rel.open{display:flex}
+ .rel button{flex:0 0 auto;max-width:78vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:38px}
+ .rel .notice{flex:0 0 auto;white-space:nowrap}
+}
+@media(max-width:360px){.vbar select{flex-basis:96px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
@@ -85,9 +129,9 @@ hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
    <div class="section-title">02 / Tipo</div><div class="chips" id="type-chips"></div>
    <hr class="div">
    <div class="section-title">03 / Tema</div><div class="chips" id="theme-chips"></div>
-   <hr class="div">
-   <div class="section-title">04 / Catálogo</div>
-   <p class="side-note" id="cat-info">Catálogo central + <code>catalog.json</code> propio de cada app cuando exista.</p>
+   <hr class="div desk-only">
+   <div class="section-title desk-only">04 / Catálogo</div>
+   <p class="side-note desk-only" id="cat-info">Catálogo central + <code>catalog.json</code> propio de cada app cuando exista.</p>
   </aside>
 
   <main class="main">
@@ -100,11 +144,12 @@ hr.div{border:0;border-top:1px solid var(--stroke);margin:17px 0}
 
 <div class="viewer" id="viewer" aria-hidden="true">
  <div class="vbar">
-  <button class="btn" id="back" type="button">← Hub</button>
+  <button class="btn" id="back" type="button" aria-label="Volver al hub">← <span class="lbl">Hub</span></button>
   <div class="title" id="vtitle"></div>
   <span class="spacer"></span>
   <select id="vsec" aria-label="Ir a sección"></select>
-  <a class="btn" id="vopen" href="#" target="_blank" rel="noopener">Abrir aparte ↗</a>
+  <button class="btn" id="vreltoggle" type="button" aria-expanded="false" aria-controls="vrel" title="Apps relacionadas">⇄ <span id="vrelcount">0</span></button>
+  <a class="btn" id="vopen" href="#" target="_blank" rel="noopener" aria-label="Abrir aparte">↗ <span class="lbl">Abrir aparte</span></a>
  </div>
  <div class="rel" id="vrel"></div>
  <iframe id="frame" title="Aplicación seleccionada" allow="fullscreen"></iframe>
@@ -176,12 +221,16 @@ function openApp(id,sec){
  $('vrel').innerHTML=`<span class="lab">Relacionado</span>`+(rels.length?rels.filter(r=>{const k=r.other.app+'#'+r.other.sec;if(seen.has(k))return false;seen.add(k);return true;}).map((r,i)=>{const o=byId(r.other.app);const os=o?.sections.find(s=>s.id===r.other.sec);return `<button data-app="${esc(r.other.app)}" data-sec="${esc(r.other.sec||'')}" style="--tone:${o?tone(o):'#43d9d1'}" title="${esc(r.label)}"><b>${esc(o?.title||r.other.app)}</b>${os?' · '+esc(os.title):''} <span style="color:var(--muted)">· ${esc(REL.kinds[r.kind]||r.kind)}</span></button>`}).join(''):'<span style="color:var(--muted)">sin cruces editoriales aún</span>');
  if(a.deeplink&&a.deeplink.endsWith('pendiente')&&sec)$('vrel').insertAdjacentHTML('beforeend',`<span class="notice">Esta app aún no acepta salto directo a sección (retrofit pendiente); se abre al inicio.</span>`);
  $('vrel').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const o=byId(b.dataset.app);if(o?.status==='publicada')openApp(b.dataset.app,b.dataset.sec||undefined);}));
+ // Móvil: las relaciones quedan plegadas tras el botón ⇄ para que la app ocupe la pantalla.
+ $('vrelcount').textContent=$('vrel').querySelectorAll('button').length;
+ setRel(false);
  // Mostrar el visor ANTES de cargar la URL: si el iframe carga oculto (display:none), la app se inicializa con viewport 0×0 y las reglas fijas/100vh quedan mal calculadas.
  $('viewer').classList.add('open');$('viewer').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
  const f=$('frame');sizeFrame();if(f.src!==new URL(url,location.href).href){f.src='about:blank';requestAnimationFrame(()=>{f.src=url;});}
  location.hash='app='+encodeURIComponent(id)+(sec?'&sec='+encodeURIComponent(sec):'');
 }
-function sizeFrame(){const f=$('frame'),top=$('vrel').getBoundingClientRect().bottom;f.style.height=Math.max(200,window.innerHeight-top)+'px';}
+function setRel(open){$('vrel').classList.toggle('open',open);$('vreltoggle').setAttribute('aria-expanded',open);sizeFrame();}
+function sizeFrame(){const f=$('frame'),top=Math.max($('vrel').getBoundingClientRect().bottom,document.querySelector('.vbar').getBoundingClientRect().bottom);f.style.height=Math.max(200,window.innerHeight-top)+'px';}
 function kickFrame(){const f=$('frame');try{const w=f.contentWindow;if(w&&w.location.href!=='about:blank'){w.dispatchEvent(new w.Event('resize'));w.scrollTo(0,0);}}catch(_){}}
 function closeViewer(){$('viewer').classList.remove('open');$('viewer').setAttribute('aria-hidden','true');$('frame').src='about:blank';document.body.style.overflow='';if(location.hash)history.replaceState(null,'',location.pathname+location.search);}
 function fromHash(){const p=new URLSearchParams(location.hash.replace(/^#/,''));if(p.get('q')){$('q').value=p.get('q');search(p.get('q'));}if(p.get('app'))openApp(p.get('app'),p.get('sec')||undefined);}
@@ -193,6 +242,7 @@ function bind(){
  $('theme-chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;filterTheme=filterTheme===c.dataset.theme?null:c.dataset.theme;renderCards();search($('q').value);});
  $('cards').addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.disabled)openApp(c.dataset.app);});
  $('back').addEventListener('click',closeViewer);
+ $('vreltoggle').addEventListener('click',()=>{setRel(!$('vrel').classList.contains('open'));kickFrame();});
  $('frame').addEventListener('load',()=>{sizeFrame();kickFrame();setTimeout(kickFrame,250);});
  window.addEventListener('resize',()=>{if($('viewer').classList.contains('open')){sizeFrame();kickFrame();}});
  $('vsec').addEventListener('change',e=>{const p=new URLSearchParams(location.hash.replace(/^#/,''));openApp(p.get('app'),e.target.value||undefined);});
