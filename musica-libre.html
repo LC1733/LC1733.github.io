@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Música Libre</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161d27; --panel2:#1c2532;
+  --accent:#00bcd4; --green:#7CFC00; --red:#ff5252;
+  --text:#e6edf3; --muted:#8b98a5;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  min-height:100vh; padding:16px;
+}
+#player{
+  width:100%; max-width:440px; background:var(--panel);
+  border-radius:18px; padding:24px;
+  box-shadow:0 0 40px rgba(0,0,0,.6);
+}
+h2{margin:0 0 4px; text-align:center}
+.sub{color:var(--muted); font-size:13px; margin:0 0 18px; text-align:center}
+
+#nowPlaying{
+  background:var(--panel2); border-radius:12px; padding:14px; margin-bottom:12px;
+}
+#trackName{font-size:15px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+#trackMeta{color:var(--muted); font-size:12px; margin-top:4px}
+#errMsg{color:var(--red); font-size:12px; min-height:15px; margin:6px 0; text-align:center}
+
+#progressWrap{height:8px; background:#2b3a4d; border-radius:4px; cursor:pointer; margin:12px 0 6px}
+#progressBar{height:100%; width:0%; background:var(--accent); border-radius:4px}
+#times{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:10px}
+
+#controls{display:flex; justify-content:center; gap:10px; margin-bottom:12px}
+#controls button{
+  border:none; border-radius:50%; width:48px; height:48px;
+  background:var(--panel2); color:var(--text); font-size:18px; cursor:pointer;
+}
+#controls button:hover{background:#26344a}
+#btnPlay{background:var(--accent)!important; width:60px!important; height:60px!important; font-size:22px!important}
+
+#volRow{display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:14px}
+#vol{flex:1; accent-color:var(--accent)}
+
+#playlist{
+  list-style:none; margin:0; padding:0;
+  max-height:220px; overflow-y:auto; border-top:1px solid #2b3a4d;
+}
+#playlist li{
+  padding:10px 8px; font-size:14px; cursor:pointer;
+  border-bottom:1px solid #202b3a;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+#playlist li:hover{background:var(--panel2)}
+#playlist li.active{color:var(--green)}
+#playlist li.active::before{content:"▶ "}
+#playlist li.dead{color:#56606b; text-decoration:line-through; cursor:default}
+
+#addRow{margin-top:12px; text-align:center}
+#addRow label{
+  display:inline-block; padding:10px 18px; border:1px dashed #2b3a4d;
+  border-radius:10px; color:var(--muted); font-size:13px; cursor:pointer;
+}
+#addRow label:hover{border-color:var(--accent); color:var(--accent)}
+#fileInput{position:absolute; width:1px; height:1px; opacity:0; overflow:hidden}
+
+footer{
+  margin-top:14px; text-align:center; color:#4a5560; font-size:9px; line-height:1.5;
+  max-width:440px;
+}
+footer b{color:var(--muted); font-size:11px}
+</style>
+</head>
+<body>
+
+<div id="player">
+  <h2>🎵 Música Libre</h2>
+  <p class="sub">Reproductor de música libre de derechos</p>
+
+  <div id="nowPlaying">
+    <div id="trackName">Toca ▶ para comenzar</div>
+    <div id="trackMeta">—</div>
+  </div>
+  <div id="errMsg"></div>
+
+  <div id="progressWrap"><div id="progressBar"></div></div>
+  <div id="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+
+  <div id="controls">
+    <button id="btnPrev">⏮</button>
+    <button id="btnPlay">▶</button>
+    <button id="btnNext">⏭</button>
+  </div>
+
+  <div id="volRow">
+    🔊 <input type="range" id="vol" min="0" max="1" step="0.01" value="0.8">
+  </div>
+
+  <ul id="playlist"></ul>
+
+  <div id="addRow">
+    <label for="fileInput">＋ Agregar mis archivos de audio</label>
+    <input type="file" id="fileInput" accept="audio/*" multiple>
+  </div>
+</div>
+
+<footer>
+  <b>Luis Cartes</b><br>
+  Creación original e inédita de Luis Claudio Cartes Henríquez. Prohibida su copia,
+  distribución, modificación o uso no autorizado. El uso indebido dará lugar a las
+  acciones civiles y legales que correspondan. La música referenciada pertenece a sus
+  autores bajo sus respectivas licencias libres.
+</footer>
+
+<script>
+"use strict";
+
+/* ================================================================
+   PLAYLIST
+   Edita esta lista: {name, artist, url}
+   - Las URLs de SoundHelix son canciones de ejemplo de uso libre
+     [Por confirmar: no pude verificar los enlaces hoy; el player
+     salta automáticamente las pistas que no carguen].
+   - Para tu propia música libre: descarga MP3 de pixabay.com/music
+     o incompetech.com, súbelos a un repo de GitHub (como TV Infinito)
+     y apunta las URLs aquí, p. ej.:
+     { name:"Mi pista", artist:"Autor", url:"musica/pista1.mp3" }
+   ================================================================ */
+const PLAYLIST = [
+  { name:"SoundHelix Song 1", artist:"T. Schürger — uso libre", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+  { name:"SoundHelix Song 2", artist:"T. Schürger — uso libre", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+  { name:"SoundHelix Song 3", artist:"T. Schürger — uso libre", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+  { name:"SoundHelix Song 8", artist:"T. Schürger — uso libre", url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+];
+
+const audio = new Audio();
+audio.preload = "none";
+audio.volume = 0.8;
+
+let tracks = PLAYLIST.map(t => ({...t, dead:false}));
+let current = -1;
+
+const $ = id => document.getElementById(id);
+const showErr = m => $("errMsg").textContent = m || "";
+
+/* ---------- Playlist UI ---------- */
+function render(){
+  const ul = $("playlist");
+  ul.innerHTML = "";
+  tracks.forEach((t, i) => {
+    const li = document.createElement("li");
+    li.textContent = t.name + (t.artist ? " · " + t.artist : "");
+    li.className = t.dead ? "dead" : (i === current ? "active" : "");
+    if (!t.dead) li.onclick = () => load(i, true);
+    ul.appendChild(li);
+  });
+}
+
+function load(i, autoplay){
+  if (i < 0 || i >= tracks.length) return;
+  current = i;
+  showErr("");
+  audio.src = tracks[i].url;
+  $("trackName").textContent = tracks[i].name;
+  $("trackMeta").textContent = tracks[i].artist || "";
+  render();
+  if (autoplay){
+    audio.play().catch(e => showErr("⚠ " + e.message));
+  }
+}
+
+function nextAlive(from, dir){
+  // Busca la siguiente pista no marcada como muerta
+  for (let k = 1; k <= tracks.length; k++){
+    const i = ((from + dir * k) % tracks.length + tracks.length) % tracks.length;
+    if (!tracks[i].dead) return i;
+  }
+  return -1;
+}
+
+/* ---------- Manejo de errores: salta pistas caídas ---------- */
+audio.addEventListener("error", () => {
+  if (current === -1) return;
+  tracks[current].dead = true;
+  showErr("⚠ \"" + tracks[current].name + "\" no disponible — saltando…");
+  const n = nextAlive(current, 1);
+  if (n !== -1 && n !== current) load(n, true);
+  else {
+    showErr("⚠ Ninguna pista en línea disponible. Agrega tus archivos abajo.");
+    render();
+  }
+});
+
+/* ---------- Controles ---------- */
+$("btnPlay").onclick = () => {
+  if (current === -1){
+    const n = nextAlive(-1, 1);
+    if (n !== -1) load(n, true);
+    return;
+  }
+  if (audio.paused) audio.play().catch(e => showErr("⚠ " + e.message));
+  else audio.pause();
+};
+$("btnNext").onclick = () => { const n = nextAlive(current, 1); if (n !== -1) load(n, true); };
+$("btnPrev").onclick = () => {
+  if (audio.currentTime > 3){ audio.currentTime = 0; return; }
+  const n = nextAlive(current, -1); if (n !== -1) load(n, true);
+};
+
+audio.addEventListener("play",  () => $("btnPlay").textContent = "⏸");
+audio.addEventListener("pause", () => $("btnPlay").textContent = "▶");
+audio.addEventListener("ended", () => { const n = nextAlive(current, 1); if (n !== -1) load(n, true); });
+
+/* ---------- Progreso ---------- */
+function fmt(s){
+  if (!isFinite(s)) return "0:00";
+  return Math.floor(s/60) + ":" + Math.floor(s%60).toString().padStart(2,"0");
+}
+audio.addEventListener("timeupdate", () => {
+  const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+  $("progressBar").style.width = pct + "%";
+  $("tCur").textContent = fmt(audio.currentTime);
+  $("tDur").textContent = fmt(audio.duration);
+});
+$("progressWrap").onclick = e => {
+  if (!audio.duration) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+};
+
+/* ---------- Volumen ---------- */
+$("vol").oninput = e => audio.volume = e.target.value;
+
+/* ---------- Archivos propios ---------- */
+$("fileInput").addEventListener("change", ev => {
+  let first = -1;
+  for (const f of ev.target.files){
+    if (!f.type.startsWith("audio/") && !/\.(mp3|wav|ogg|m4a|flac|aac)$/i.test(f.name)) continue;
+    tracks.push({
+      name: f.name.replace(/\.[^.]+$/, ""),
+      artist: "archivo local",
+      url: URL.createObjectURL(f),
+      dead: false
+    });
+    if (first === -1) first = tracks.length - 1;
+  }
+  render();
+  if (first !== -1 && (current === -1 || tracks.every((t,i)=> t.dead || i>=PLAYLIST.length))) load(first, true);
+});
+
+render();
+</script>
+
+</body>
+</html>
